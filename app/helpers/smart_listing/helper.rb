@@ -46,7 +46,7 @@ module SmartListing
 
       def paginate options = {}
         if @smart_listing.collection.respond_to? :current_page
-          @template.paginate @smart_listing.collection, {:remote => @smart_listing.remote?, :param_name => @smart_listing.param_name(:page)}.merge(@smart_listing.kaminari_options)
+          @template.paginate(@smart_listing.collection, **{:remote => @smart_listing.remote?, :param_name => @smart_listing.param_name(:page)}.merge(@smart_listing.kaminari_options))
         end
       end
 
@@ -88,6 +88,7 @@ module SmartListing
       end
 
       def sortable title, attribute, options = {}
+        attribute = attribute.to_sym
         dirs = options[:sort_dirs] || @smart_listing.sort_dirs || [nil, "asc", "desc"]
 
         next_index = dirs.index(@smart_listing.sort_order(attribute)).nil? ? 0 : (dirs.index(@smart_listing.sort_order(attribute)) + 1) % dirs.length

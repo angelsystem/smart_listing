@@ -61,8 +61,8 @@ module SmartListing
       @per_page = page_sizes.first unless page_sizes.include?(@per_page) || (unlimited_per_page? && @per_page == 0)
 
       @sort = parse_sort(get_param(:sort)) || @options[:default_sort]
+      @sort = @sort.with_indifferent_access
       sort_keys = (@options[:sort_attributes] == :implicit ? @sort.keys.collect{|s| [s, s]} : @options[:sort_attributes])
-
       set_param(:per_page, @per_page, cookies) if @options[:memorize_per_page]
 
       @count = @collection.size
